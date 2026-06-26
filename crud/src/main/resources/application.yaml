@@ -1,3 +1,32 @@
+server:
+  port: 8083
+
 spring:
-  application:
-    name: crud
+  profiles:
+    active: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  cloud:
+    aws:
+      region:
+        static: us-east-1
+      credentials:
+        static:
+          access-key: test
+          secret-key: test
+      # Estrutura exata aceita pela autoconfiguração do Starter v3.3.x
+      sqs:
+        endpoint: http://localhost:4566
+---
+spring:
+  config:
+    activate:
+      on-profile: aws
+  cloud:
+    aws:
+      region:
+        static: us-east-1
