@@ -15,4 +15,5 @@ public class PessoaDTO {
     private String id;
     private String nome;
     private String cpf;
+    private String s3Key;
 }

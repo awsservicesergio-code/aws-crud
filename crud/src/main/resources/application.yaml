@@ -21,6 +21,9 @@ spring:
       # Estrutura exata aceita pela autoconfiguração do Starter v3.3.x
       sqs:
         endpoint: http://localhost:4566
+      dynamodb:
+        table: Pessoa
+
 ---
 spring:
   config:
@@ -30,3 +33,5 @@ spring:
     aws:
       region:
         static: us-east-1
+      dynamodb:
+        table: Pessoa

@@ -3,6 +3,8 @@ package com.crud.aws.sqs;
 import com.crud.aws.avro.AvroDeserializer;
 import com.crud.aws.glue.service.GlueSchemaService;
 import com.crud.aws.payload.AvroEnvelope;
+import com.crud.entity.Pessoa;
+import com.crud.mapper.PessoaMapper;
 import io.awspring.cloud.sqs.annotation.SqsListener;
 import lombok.RequiredArgsConstructor;
 import org.apache.avro.Schema;
@@ -19,10 +21,11 @@ public class PessoaConsumer {
     private final AvroDeserializer avroDeserializer;
 
     @SqsListener("pessoa.fifo")
-    public void consumir(AvroEnvelope envelope) throws Exception {
+    public void consumir(AvroEnvelope envelope) {
         Schema schema = glueSchemaService.buscarSchema(envelope.getSchemaVersionId());
         byte[] bytes = Base64.getDecoder().decode(envelope.getPayload());
         GenericRecord record = avroDeserializer.deserialize(bytes, schema);
         System.out.println(record);
+        //Pessoa pessoa = PessoaMapper.fromAvroToPessoa(record);
     }
 }
