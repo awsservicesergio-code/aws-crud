@@ -23,6 +23,7 @@ spring:
         endpoint: http://localhost:4566
       dynamodb:
         table: Pessoa
+        endpoint: http://localhost:4566
 
 ---
 spring:
@@ -35,3 +36,4 @@ spring:
         static: us-east-1
       dynamodb:
         table: Pessoa
+

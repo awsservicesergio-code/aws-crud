@@ -14,6 +14,10 @@ import java.net.URI;
 @Profile("local")
 public class SqsLocalConfig {
 
+    /**
+     * Método responsável pelo bean na localstack para o SqsAsyncClient.
+     * @return SqsAsyncClient
+     */
     @Bean
     public SqsAsyncClient sqsAsyncClient() {
         return SqsAsyncClient.builder()
@@ -27,6 +31,11 @@ public class SqsLocalConfig {
                 .build();
     }
 
+    /**
+     * Método responsável pelo bean na localstack para o defaultSqsListenerContainerFactory.
+     * @param sqsAsyncClient
+     * @return SqsMessageListenerContainerFactory
+     */
     @Bean
     public SqsMessageListenerContainerFactory<Object> defaultSqsListenerContainerFactory(SqsAsyncClient sqsAsyncClient) {
         return SqsMessageListenerContainerFactory

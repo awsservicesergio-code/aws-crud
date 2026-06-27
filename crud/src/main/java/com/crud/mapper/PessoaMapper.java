@@ -1,12 +1,17 @@
 package com.crud.mapper;
 
+import com.crud.aws.dynamoDB.entity.Pessoa;
 import com.crud.dto.PessoaDTO;
-import com.crud.entity.Pessoa;
 import com.crud.resources.avro.PessoaAvro;
 import org.apache.avro.generic.GenericRecord;
 
 public class PessoaMapper {
 
+    /**
+     * Método responsável por converter PessoaDTO em PessoaAvro.
+     * @param dto
+     * @return PessoaAvro
+     */
     public static PessoaAvro toAvro(PessoaDTO dto) {
         return PessoaAvro.newBuilder()
                 .setId(dto.getId())
@@ -16,6 +21,11 @@ public class PessoaMapper {
                 .build();
     }
 
+    /**
+     * Método responsável por converter PessoaAvro em PessoaDTO.
+     * @param avro
+     * @return PessoaDTO
+     */
     public static PessoaDTO fromAvro(PessoaAvro avro) {
         PessoaDTO dto = new PessoaDTO();
         dto.setId(avro.getId());
@@ -25,6 +35,11 @@ public class PessoaMapper {
         return dto;
     }
 
+    /**
+     * Método responsável por converter GenericRecord em Pessoa.
+     * @param record
+     * @return Pessoa
+     */
     public static Pessoa fromAvroToPessoa(GenericRecord record) {
         return Pessoa.builder()
                 .id(record.get("id") != null ? record.get("id").toString() : null)
@@ -35,6 +50,11 @@ public class PessoaMapper {
 
     }
 
+    /**
+     * Método responsável por converter PessoaDTO em Pessoa.
+     * @param pessoaDTO
+     * @return Pessoa
+     */
     public static  Pessoa fromPessoaDTO(PessoaDTO pessoaDTO){
         return Pessoa.builder()
                 .id(pessoaDTO.getId())

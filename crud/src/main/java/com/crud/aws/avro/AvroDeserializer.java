@@ -10,6 +10,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class AvroDeserializer {
 
+    /**
+     * Método responsável por desserializar a mensagem obtida no payload.
+     * @param payload
+     * @param schema
+     * @return GenericRecord
+     */
     public GenericRecord deserialize(byte[] payload, Schema schema) {
         try {
             SpecificDatumReader<GenericRecord> reader = new SpecificDatumReader<>(schema);
