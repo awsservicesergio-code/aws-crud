@@ -1,5 +1,6 @@
 package com.crud.dto;
 
+import com.pessoa.resources.avro.EventType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,4 +17,7 @@ public class PessoaDTO {
     private String nome;
     private String cpf;
     private String s3Key;
+    private String eventId;
+    private EventType eventType;
+    private long timestamp;
 }

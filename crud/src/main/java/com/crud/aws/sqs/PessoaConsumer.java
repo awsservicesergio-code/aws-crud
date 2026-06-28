@@ -25,7 +25,7 @@ public class PessoaConsumer {
      * Método responsável por escutar o aws sqs e enviar o payload para save no DynamoDB.
      * @param envelope
      */
-    @SqsListener("pessoa.fifo")
+    @SqsListener("pessoa-create.fifo")
     public void consumir(AvroEnvelope envelope) {
         Schema schema = glueSchemaService.buscarSchema(envelope.getSchemaVersionId());
         byte[] bytes = Base64.getDecoder().decode(envelope.getPayload());
