@@ -1,5 +1,6 @@
 package com.crud.error;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -18,6 +19,16 @@ public class ErrorHandler {
     }
 
     /**
+     * Método responsável por tratar a exception JsonProcessingException.
+     * @param ex
+     * @return ResponseEntity<String>
+     */
+    @ExceptionHandler(JsonProcessingException.class)
+    public ResponseEntity<String> handleJsonProcessingException(JsonProcessingException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    /**
      * Método responsável por tratar a exception Exception.
      * @param ex
      * @return ResponseEntity<String>
@@ -26,4 +37,5 @@ public class ErrorHandler {
     public ResponseEntity<String> handleException(Exception ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
+
 }

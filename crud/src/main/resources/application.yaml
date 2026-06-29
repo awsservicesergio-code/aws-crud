@@ -25,6 +25,16 @@ spring:
         table: Pessoa
         endpoint: http://localhost:4566
 
+app:
+  storage:
+    s3:
+      bucket: pessoa-s3-local
+      endpoint: http://localhost:4566
+      region: us-east-1
+      access-key: test
+      secret-key: test
+      path-style-access: true
+
 ---
 spring:
   config:
@@ -37,3 +47,9 @@ spring:
       dynamodb:
         table: Pessoa
 
+app:
+  storage:
+    s3:
+      bucket: pessoa-s3-aws
+      region: us-east-1
+      path-style-access: false

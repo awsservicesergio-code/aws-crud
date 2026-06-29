@@ -10,6 +10,7 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecon
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @DynamoDbBean
 public class Pessoa {
 

@@ -4,6 +4,7 @@ import com.crud.aws.dynamoDB.entity.Pessoa;
 import com.crud.dto.PessoaDTO;
 import com.pessoa.resources.avro.PessoaAvro;
 import org.apache.avro.generic.GenericRecord;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -17,7 +18,7 @@ public class PessoaMapper {
      * @param dto
      * @return PessoaAvro
      */
-    public static PessoaAvro toAvro(PessoaDTO dto) {
+    public static PessoaAvro toAvro(@NotNull PessoaDTO dto) {
         return PessoaAvro.newBuilder()
                 .setId(dto.getId())
                 .setNome(dto.getNome())
@@ -25,7 +26,7 @@ public class PessoaMapper {
                 .setS3Key(dto.getS3Key())
                 .setEventId(dto.getEventId())
                 .setEventType(dto.getEventType())
-                .setTimestamp(Instant.ofEpochSecond(dto.getTimestamp()))
+                .setTimestamp(Instant.ofEpochMilli(dto.getTimestamp()))
                 .build();
     }
 
@@ -96,12 +97,33 @@ public class PessoaMapper {
     }
 
     /**
-     * Método reponsável por converter timestamp do tipo String para Long.
+     * Método responsável por converter Pessoa DynamoDB em PessoaDTO.
+     * @param resposta
+     * @return PessoaDTO
+     */
+    public static PessoaDTO converterPessoaDynamoDbParaPessoaDTO(Pessoa resposta) {
+        return PessoaDTO.builder()
+                .id(resposta.getId())
+                .nome(resposta.getNome())
+                .cpf(resposta.getCpf())
+                .s3Key(resposta.getS3Key())
+                .eventId(resposta.getEventId())
+                .eventType(resposta.getEventType())
+                .timestamp(converterStringTimestampToLong(resposta.getTimestamp()))
+                .build();
+    }
+
+    /**
+     * Método reponsável por converter data hora timestamp do tipo String para Long.
      * @param timestamp
      * @return Long
      */
     public static Long converterStringTimestampToLong(String timestamp){
-        return Instant.parse(timestamp).toEpochMilli();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        LocalDateTime localDateTime = LocalDateTime.parse(timestamp, formatter);
+        return localDateTime
+                .atZone(ZoneId.systemDefault())
+                .toInstant()
+                .toEpochMilli();
     }
-
 }

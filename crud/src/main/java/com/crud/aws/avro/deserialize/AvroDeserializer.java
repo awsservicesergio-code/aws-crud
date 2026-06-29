@@ -1,4 +1,4 @@
-package com.crud.aws.avro;
+package com.crud.aws.avro.deserialize;
 
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericRecord;

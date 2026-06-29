@@ -20,4 +20,14 @@ public class PessoaServiceDB implements IPessoaServiceDB {
     public void savePessoa(Pessoa pessoa) {
         pessoaRepository.salvar(pessoa);
     }
+
+    /**
+     * Método responsável por buscar pessoa no DynamoDB pelo cpf.
+     * @param cpf
+     * @return Pessoa
+     */
+    @Override
+    public Pessoa buscarPessoaPorCpf(String cpf) {
+        return pessoaRepository.buscarPorCpf(cpf);
+    }
 }
