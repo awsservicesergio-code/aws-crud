@@ -18,6 +18,7 @@ import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericRecord;
 import org.springframework.stereotype.Service;
 import java.util.Base64;
+import java.util.UUID;
 
 
 @Service
@@ -72,10 +73,12 @@ public class PessoaProducer implements IPessoaProducer {
     @Override
     public void enviarAvroEnvelopeToSqs(AvroEnvelope envelope, Exception ex) throws JsonProcessingException {
         Pessoa pessoa = desserializacao(envelope);
-        String idempotencyKey = pessoa.getCpf();
         String body = objectMapper.writeValueAsString(envelope);
-        String message = criarMensagemErro("pessoa-dlq.fifo", body, ex);
+
+        String idempotencyKey = UUID.randomUUID().toString();
+
         s3StorageService.deleteFromS3(pessoa);
+
         sqsTemplate.send(options -> options
                 .queue("pessoa-dlq.fifo")
                 .payload(body)
@@ -106,14 +109,18 @@ public class PessoaProducer implements IPessoaProducer {
      * @param ex
      * @return String
      */
-    private String criarMensagemErro(String queue, Object payload, Exception ex) {
+    private String criarMensagemErro(String queue, Object payload, Exception ex) throws JsonProcessingException {
         return """
             {
-              "sourceQueue": "%s",
+              "sourceQueue": %s,
               "payload": %s,
-              "error": "%s"
+              "error": %s
             }
-        """.formatted(queue, payload.toString(), ex.getMessage());
+            """.formatted(
+                objectMapper.writeValueAsString(queue),
+                objectMapper.writeValueAsString(payload),
+                objectMapper.writeValueAsString(ex.getMessage())
+        );
     }
 
 

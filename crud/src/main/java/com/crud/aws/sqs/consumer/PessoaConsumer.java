@@ -37,7 +37,6 @@ public class PessoaConsumer {
             pessoaServiceDB.savePessoa(pessoa);
         } catch (Exception ex) {
             pessoaProducer.enviarAvroEnvelopeToSqs(envelope, ex);
-            throw ex;
         }
     }
 
@@ -54,7 +53,6 @@ public class PessoaConsumer {
             pessoaProducer.enviarToSQS(pessoaDTO, pessoa);
         } catch (Exception ex) {
             pessoaProducer.enviarAvroEnvelopeToSqs(envelope, ex);
-            throw ex;
         }
     }
 
